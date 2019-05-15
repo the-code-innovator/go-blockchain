@@ -1,6 +1,6 @@
 # [<img src="https://raw.githubusercontent.com/the-code-innovator/go-blockchain/master/assets/mascot.png" width=40 height=40>](https://golang.org)**golang** Block Chain
 [![Join the chat at https://gitter.im/go-blockchain/Lobby](https://badges.gitter.im/go-blockchain/Lobby.svg)](https://gitter.im/go-blockchain/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![MIT License](https://img.shields.io/cocoapods/l/AFNetworking.svg?style=plastic)](https://github.com/the-code-innovator/go-blockchain/blob/master/LICENSE)
+[![MIT License](https://img.shields.io/cocoapods/l/AFNetworking.svg?style=plastic)](https://github.com/the-code-innovator/go-blockchain/blob/master/LICENSE) [![Join the chat at https://gitter.im/go-blockchain-/community](https://badges.gitter.im/go-blockchain-/community.svg)](https://gitter.im/go-blockchain-/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 [<img src="https://raw.githubusercontent.com/the-code-innovator/go-blockchain/master/assets/github.png" width=40 height=40>](https://github.com/the-code-innovator/go-blockchain)
 [<img src="https://raw.githubusercontent.com/the-code-innovator/go-blockchain/master/assets/gitter.png" width=40 height=40>](https://gitter.im/go-blockchain/Lobby)
