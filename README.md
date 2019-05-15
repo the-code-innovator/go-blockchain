@@ -1,8 +1,9 @@
-# [<img src="https://raw.githubusercontent.com/the-code-innovator/go-blockchain/master/assets/mascot.png" width=40 height=40>](https://golang.org)**golang** Block Chain
+# [![golang](https://raw.githubusercontent.com/the-code-innovator/go-blockchain/master/assets/assets/mascot.png)](https://golang.org)**golang** Block Chain
+
 [![MIT License](https://img.shields.io/cocoapods/l/AFNetworking.svg?style=plastic)](https://github.com/the-code-innovator/go-blockchain/blob/master/LICENSE) [![Join the chat at https://gitter.im/go-blockchain-/community](https://badges.gitter.im/go-blockchain-/community.svg)](https://gitter.im/go-blockchain-/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-[<img src="https://raw.githubusercontent.com/the-code-innovator/go-blockchain/master/assets/github.png" width=40 height=40>](https://github.com/the-code-innovator/go-blockchain)
-[<img src="https://raw.githubusercontent.com/the-code-innovator/go-blockchain/master/assets/gitter.png" width=40 height=40>](https://gitter.im/go-blockchain/Lobby)
+[![GitHub](https://raw.githubusercontent.com/the-code-innovator/go-blockchain/master/assets/assets/github.png)](https://github.com/the-code-innovator/go-blockchain)
+[![Gitter](https://raw.githubusercontent.com/the-code-innovator/go-blockchain/master/assets/assets/gitter.png)](https://gitter.im/go-blockchain-/community)
 
 ## [Blockchain](https://en.wikipedia.org/wiki/Blockchain)
 
@@ -22,7 +23,7 @@ a block chain in [**golang**](https://golang.org) with command line interface bu
 ```text
 USAGE:
     -> dev   : go run main.go   <OPTIONS>
-    -> build : ./go-block-chain <OPTIONS>
+    -> build : go-blockchain <OPTIONS>
  • getbalance -address ADDRESS           - get balance for address.
  • createblockchain -address ADDRESS     - creates a blockchain.
  • printchain                            - prints the blocks in the blockchain.
@@ -31,25 +32,25 @@ USAGE:
  • listaddresses                         - lists the addresses in our wallet file.
 ```
 
-## Utilities:
+## Utilities
 
 * getbalance:
-   ```bash$ $EXECUTABLE getbalance -address ADDRESS```
+   ```$ $EXECUTABLE getbalance -address ADDRESS```
   * To get balance of address 'ADDRESS'.
 * createblockchain:
-   ```bash$ $EXECUTABLE createblockchain -address ADDRESS```
+   ```$ $EXECUTABLE createblockchain -address ADDRESS```
   * To create a blockchain and send reward to the address 'ADDRESS'.
 * printchain:
-   ```bash$ $EXECUTABLE printchain```
+   ```$ $EXECUTABLE printchain```
   * To print the blocks in the blockchain.
 * send:
-   ```bash$ $EXECUTABLE send -from FROM -to TO -amount AMOUNT```
+   ```$ $EXECUTABLE send -from FROM -to TO -amount AMOUNT```
   * To send amount AMOUNT from address 'FROM' to address 'TO'.
 * createwallet:
-   ```bash$ $EXECUTABLE createwallet```
+   ```$ $EXECUTABLE createwallet```
   * To create a wallet and store it in the wallets database.
 * listaddresses:
-   ```bash$ $EXECUTABLE listaddresses```
+   ```$ $EXECUTABLE listaddresses```
   * To list all public addresses in the wallets database.
 
 `$EXECUTABLE` evaluvates to:
@@ -58,6 +59,6 @@ USAGE:
       ```go run main.go```
 * build:
   * First build the module.
-      ```bash$ go build```
+      ```$ go build```
   * After building the module.
-      ```bash$PWD/go-block-chain```
+      ```$PWD/go-blockchain```
