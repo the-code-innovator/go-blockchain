@@ -1,0 +1,11 @@
+{
+	"go.coverOnSave": true,
+	"go.formatTool": "gofmt",
+	"go.vetOnSave": "workspace",
+	"go.useLanguageServer": true,
+	"go.useCodeSnippetsOnFunctionSuggestWithoutType": true,
+	"go.useCodeSnippetsOnFunctionSuggest": true,
+	"go.testOnSave": true,
+	"editor.fontFamily": "Fira Code",
+	"editor.fontLigatures": true
+}
