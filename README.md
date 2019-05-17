@@ -20,8 +20,7 @@ a block chain in [**golang**](https://golang.org) with command line interface bu
 
 ## Usage
 
-```text
-USAGE:
+```USAGE:
     -> dev   : go run main.go   <OPTIONS>
     -> build : go-blockchain <OPTIONS>
  • getbalance -address ADDRESS           - get balance for address.
@@ -29,8 +28,7 @@ USAGE:
  • printchain                            - prints the blocks in the blockchain.
  • send -from FROM -to TO -amount AMOUNT - send amount from an address to an address.
  • createwallet                          - creates a new wallet.
- • listaddresses                         - lists the addresses in our wallet file.
-```
+ • listaddresses                         - lists the addresses in our wallet file.```
 
 ## Utilities
 
