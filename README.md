@@ -1,9 +1,9 @@
-# [![golang](https://raw.githubusercontent.com/the-code-innovator/go-blockchain/master/assets/assets/mascot.png)](https://golang.org)**golang** Block Chain
+# [![golang](https://raw.githubusercontent.com/the-code-innovator/go-blockchain/master/assets/minified/mascot.png)](https://golang.org)**golang** Block Chain
 
 [![MIT License](https://img.shields.io/cocoapods/l/AFNetworking.svg?style=plastic)](https://github.com/the-code-innovator/go-blockchain/blob/master/LICENSE) [![Join the chat at https://gitter.im/go-blockchain-/community](https://badges.gitter.im/go-blockchain-/community.svg)](https://gitter.im/go-blockchain-/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-[![GitHub](https://raw.githubusercontent.com/the-code-innovator/go-blockchain/master/assets/assets/github.png)](https://github.com/the-code-innovator/go-blockchain)
-[![Gitter](https://raw.githubusercontent.com/the-code-innovator/go-blockchain/master/assets/assets/gitter.png)](https://gitter.im/go-blockchain-/community)
+[![GitHub](https://raw.githubusercontent.com/the-code-innovator/go-blockchain/master/assets/minified/github.png)](https://github.com/the-code-innovator/go-blockchain)
+[![Gitter](https://raw.githubusercontent.com/the-code-innovator/go-blockchain/master/assets/minified/gitter.png)](https://gitter.im/go-blockchain-/community)
 
 ## [Blockchain](https://en.wikipedia.org/wiki/Blockchain)
 
