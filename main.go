@@ -8,6 +8,6 @@ import (
 
 func main() {
 	defer os.Exit(0)
-	Interface := line.LineInterface{}
-	Interface.Run()
+	inter := line.Interface{}
+	inter.Run()
 }

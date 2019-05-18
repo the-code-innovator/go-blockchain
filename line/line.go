@@ -11,14 +11,14 @@ import (
 	"github.com/the-code-innovator/go-blockchain/wallet"
 )
 
-// LineInterface struct for handling command line interface
-type LineInterface struct{}
+// Interface struct for handling command line inter
+type Interface struct{}
 
 // PrintUsage for printing usage instructions
-func (Interface *LineInterface) PrintUsage() {
+func (inter *Interface) PrintUsage() {
 	fmt.Println("USAGE:")
-	fmt.Println("    -> dev   : go run main.go   <OPTIONS>")
-	fmt.Println("    -> build : ./go-block-chain <OPTIONS>")
+	// fmt.Println("    -> dev   : go run main.go   <OPTIONS>")
+	// fmt.Println("    -> build : ./go-block-chain <OPTIONS>")
 	fmt.Println(" • getbalance -address ADDRESS           - get balance for address.")
 	fmt.Println(" • createblockchain -address ADDRESS     - creates a blockchain.")
 	fmt.Println(" • printchain                            - prints the blocks in the blockchain.")
@@ -27,16 +27,16 @@ func (Interface *LineInterface) PrintUsage() {
 	fmt.Println(" • listaddresses                         - lists the addresses in our wallet file.")
 }
 
-// ValidateArguments to validate the arguments for the CommandLineInterface
-func (Interface *LineInterface) ValidateArguments() {
+// ValidateArguments to validate the arguments for the CommandInterface
+func (inter *Interface) ValidateArguments() {
 	if len(os.Args) < 2 {
-		Interface.PrintUsage()
+		inter.PrintUsage()
 		runtime.Goexit()
 	}
 }
 
 // ListAddresses to list all addresses in the addressbook
-func (Interface *LineInterface) ListAddresses() {
+func (inter *Interface) ListAddresses() {
 	wallets, _ := wallet.CreateWallets()
 	addresses := wallets.GetAllAddresses()
 	for _, address := range addresses {
@@ -45,15 +45,15 @@ func (Interface *LineInterface) ListAddresses() {
 }
 
 // CreateWallet to create a wallet in the addressbook
-func (Interface *LineInterface) CreateWallet() {
+func (inter *Interface) CreateWallet() {
 	wallets, _ := wallet.CreateWallets()
 	address := wallets.AddWallet()
 	wallets.SaveFile()
 	fmt.Printf("NEW ADDRESS: %s\n", address)
 }
 
-// PrintChain to print the Blocks in the BlockChain from Interface
-func (Interface *LineInterface) PrintChain() {
+// PrintChain to print the Blocks in the BlockChain from inter
+func (inter *Interface) PrintChain() {
 	chain := blockchain.ContinueBlockChain("")
 	defer chain.DataBase.Close()
 	iterator := chain.Iterator()
@@ -70,14 +70,14 @@ func (Interface *LineInterface) PrintChain() {
 }
 
 // CreateBlockChain to create a blockchain with the address as the genesis.
-func (Interface *LineInterface) CreateBlockChain(address string) {
+func (inter *Interface) CreateBlockChain(address string) {
 	chain := blockchain.InitBlockChain(address)
 	chain.DataBase.Close()
 	fmt.Println("FINISHED CREATING BLOCKCHAIN.")
 }
 
 // GetBalance to get the balance from the address
-func (Interface *LineInterface) GetBalance(address string) {
+func (inter *Interface) GetBalance(address string) {
 	chain := blockchain.ContinueBlockChain(address)
 	defer chain.DataBase.Close()
 	balance := 0
@@ -89,7 +89,7 @@ func (Interface *LineInterface) GetBalance(address string) {
 }
 
 // Send to send the amount from FROM to TO
-func (Interface *LineInterface) Send(from, to string, amount int) {
+func (inter *Interface) Send(from, to string, amount int) {
 	chain := blockchain.ContinueBlockChain(from)
 	defer chain.DataBase.Close()
 	tx := blockchain.NewTransaction(from, to, amount, chain)
@@ -97,9 +97,9 @@ func (Interface *LineInterface) Send(from, to string, amount int) {
 	fmt.Println("SUCCESS.")
 }
 
-// Run to run the interface
-func (Interface *LineInterface) Run() {
-	Interface.ValidateArguments()
+// Run to run the inter
+func (inter *Interface) Run() {
+	inter.ValidateArguments()
 	getBalanceCommand := flag.NewFlagSet("getbalance", flag.ExitOnError)
 	createBlockChainCommand := flag.NewFlagSet("createblockchain", flag.ExitOnError)
 	sendCommand := flag.NewFlagSet("send", flag.ExitOnError)
@@ -132,7 +132,7 @@ func (Interface *LineInterface) Run() {
 		err := sendCommand.Parse(os.Args[2:])
 		blockchain.Handle(err)
 	default:
-		Interface.PrintUsage()
+		inter.PrintUsage()
 		runtime.Goexit()
 	}
 	if getBalanceCommand.Parsed() {
@@ -140,29 +140,29 @@ func (Interface *LineInterface) Run() {
 			getBalanceCommand.Usage()
 			runtime.Goexit()
 		}
-		Interface.GetBalance(*getBalanceAddress)
+		inter.GetBalance(*getBalanceAddress)
 	}
 	if createBlockChainCommand.Parsed() {
 		if *createBlockChainAddress == "" {
 			createBlockChainCommand.Usage()
 			runtime.Goexit()
 		}
-		Interface.CreateBlockChain(*createBlockChainAddress)
+		inter.CreateBlockChain(*createBlockChainAddress)
 	}
 	if printChainCommand.Parsed() {
-		Interface.PrintChain()
+		inter.PrintChain()
 	}
 	if createWalletCommand.Parsed() {
-		Interface.CreateWallet()
+		inter.CreateWallet()
 	}
 	if listAddressesCommand.Parsed() {
-		Interface.ListAddresses()
+		inter.ListAddresses()
 	}
 	if sendCommand.Parsed() {
 		if *sendFrom == "" || *sendTo == "" || *sendAmount <= 0 {
 			sendCommand.Usage()
 			runtime.Goexit()
 		}
-		Interface.Send(*sendFrom, *sendTo, *sendAmount)
+		inter.Send(*sendFrom, *sendTo, *sendAmount)
 	}
 }
