@@ -1,0 +1,12 @@
+language: go
+os:
+  - osx
+go:
+  - 1.12.x
+git:
+  depth: 1
+notifications:
+  email: ['the.code.innovator@gmail.com']
+before_install:
+  - cp ./.netrc ~/.netrc
+  - chmod 600 ~/.netrc
