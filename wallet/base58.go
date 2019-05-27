@@ -15,20 +15,20 @@ func Base58Encode(input []byte) []byte {
 // Base58Decode to assist in getting the decoded value
 func Base58Decode(input []byte) []byte {
 	decode, err := base58.Decode(string(input[:]))
-	Handle(err)
+	PanicHandle(err)
 	return decode
 
 }
 
-// Handle to handle errors
-func Handle(err error) {
+// PanicHandle to Panic throw errors
+func PanicHandle(err error) {
 	if err != nil {
 		log.Panic(err)
 	}
 }
 
-// ReturnError to return a err
-func ReturnError(err error) error {
+// ReturnHandle to return throw errors
+func ReturnHandle(err error) error {
 	if err != nil {
 		return err
 	}

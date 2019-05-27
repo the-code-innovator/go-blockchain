@@ -11,7 +11,7 @@ import (
 
 const walletFile = "./tmp/wallets.data"
 
-// Wallets for the map of wallet
+// Wallets structure for map of wallets
 type Wallets struct {
 	Wallets map[string]*Wallet
 }
@@ -32,18 +32,18 @@ func (wallets *Wallets) AddWallet() string {
 	return address
 }
 
-// GetAllAddresses to get the addresses in the address file
+// GetWallet to get the wallet
+func (wallets Wallets) GetWallet(address string) Wallet {
+	return *wallets.Wallets[address]
+}
+
+// GetAllAddresses to get the addresses in the wallets file
 func (wallets *Wallets) GetAllAddresses() []string {
 	var addresses []string
 	for address := range wallets.Wallets {
 		addresses = append(addresses, address)
 	}
 	return addresses
-}
-
-// GetWallet to get the wallet
-func (wallets Wallets) GetWallet(address string) Wallet {
-	return *wallets.Wallets[address]
 }
 
 // LoadFile to load a file into the application
@@ -53,11 +53,11 @@ func (wallets *Wallets) LoadFile() error {
 	}
 	var walletsLocal Wallets
 	fileContent, err := ioutil.ReadFile(walletFile)
-	ReturnError(err)
+	ReturnHandle(err)
 	gob.Register(elliptic.P256())
 	decoder := gob.NewDecoder(bytes.NewReader(fileContent))
 	err = decoder.Decode(&walletsLocal)
-	ReturnError(err)
+	ReturnHandle(err)
 	wallets.Wallets = walletsLocal.Wallets
 	return nil
 }
@@ -68,7 +68,7 @@ func (wallets *Wallets) SaveFile() {
 	gob.Register(elliptic.P256())
 	encoder := gob.NewEncoder(&content)
 	err := encoder.Encode(wallets)
-	Handle(err)
+	PanicHandle(err)
 	err = ioutil.WriteFile(walletFile, content.Bytes(), 0644)
-	Handle(err)
+	PanicHandle(err)
 }

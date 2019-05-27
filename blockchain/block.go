@@ -7,34 +7,20 @@ import (
 	"log"
 )
 
-// Block structure for the Block dataType
+// Block structure for the Block type in the blockchain
 type Block struct {
-	// Data         []byte
 	Hash         []byte
 	Transactions []*Transaction
 	PreviousHash []byte
 	Nonce        int
 }
 
-// DeriveHash from the PreviousHash of the same BlockChain
-// func (block *Block) DeriveHash() {
-// 	info := bytes.Join([][]byte{block.Data, block.PreviousHash}, []byte{})
-// 	hash := sha256.Sum256(info)
-// 	block.Hash = hash[:]
-// }
-
-// HashTransactions to hash the transactions list for the block
-func (block *Block) HashTransactions() []byte {
-	var txHashes [][]byte
-	var txHash [32]byte
-	for _, tx := range block.Transactions {
-		txHashes = append(txHashes, tx.ID)
-	}
-	txHash = sha256.Sum256(bytes.Join(txHashes, []byte{}))
-	return txHash[:]
+// Genesis to create the genesis block in the blockchain
+func Genesis(coinbase *Transaction) *Block {
+	return CreateBlock([]*Transaction{coinbase}, []byte{})
 }
 
-// CreateBlock from the PreviousHash of the same BlockChain
+// CreateBlock to create a block in the blockchain
 func CreateBlock(txns []*Transaction, previousHash []byte) *Block {
 	block := &Block{[]byte{}, txns, previousHash, 0}
 	// block.DeriveHash()
@@ -45,31 +31,37 @@ func CreateBlock(txns []*Transaction, previousHash []byte) *Block {
 	return block
 }
 
-// Genesis of the BlockChain
-func Genesis(coinbase *Transaction) *Block {
-	return CreateBlock([]*Transaction{coinbase}, []byte{})
-}
-
-// Serialize for serializing the output for BadgerDB
+// Serialize to serialize the input to BadgerDB
 func (block *Block) Serialize() []byte {
 	var result bytes.Buffer
 	encoder := gob.NewEncoder(&result)
 	err := encoder.Encode(block)
-	Handle(err)
+	PanicHandle(err)
 	return result.Bytes()
 }
 
-// Deserialize from input BadgerDB for Block
+// Deserialize to deserialize the output from BadgerDB
 func Deserialize(data []byte) *Block {
 	var block Block
 	decoder := gob.NewDecoder(bytes.NewReader(data))
 	err := decoder.Decode(&block)
-	Handle(err)
+	PanicHandle(err)
 	return &block
 }
 
-// Handle to handle the error
-func Handle(err error) {
+// HashTransactions to hash the transactions in the block
+func (block *Block) HashTransactions() []byte {
+	var txHashes [][]byte
+	var txHash [32]byte
+	for _, tx := range block.Transactions {
+		txHashes = append(txHashes, tx.ID)
+	}
+	txHash = sha256.Sum256(bytes.Join(txHashes, []byte{}))
+	return txHash[:]
+}
+
+// PanicHandle to Panic throw the Error
+func PanicHandle(err error) {
 	if err != nil {
 		log.Panic(err)
 	}
