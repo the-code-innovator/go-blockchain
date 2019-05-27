@@ -1,6 +1,7 @@
 package wallet
 
 import (
+	"bytes"
 	"crypto/ecdsa"
 	"crypto/elliptic"
 	"crypto/rand"
@@ -27,10 +28,17 @@ func (w Wallet) Address() []byte {
 	checkSum := GenerateCheckSum(versionedHash)
 	fullHash := append(versionedHash, checkSum...)
 	address := Base58Encode(fullHash)
-	// fmt.Printf("PUBLIC KEY: %x\n", w.PublicKey)
-	// fmt.Printf("PUBLIC HASH: %x\n", publicKeyHash)
-	// fmt.Printf("ADDRESS: %x\n", address)
 	return address
+}
+
+// ValidateAddress to validate the address that is passed into the blockchain
+func ValidateAddress(address string) bool {
+	publicKeyHash := Base58Decode([]byte(address))
+	actualChecksum := publicKeyHash[len(publicKeyHash)-checkSumLength:]
+	actualVersion := publicKeyHash[0]
+	publicKeyHash = publicKeyHash[1 : len(publicKeyHash)-checkSumLength]
+	targetChecksum := GenerateCheckSum(append([]byte{actualVersion}, publicKeyHash...))
+	return bytes.Compare(actualChecksum, targetChecksum) == 0
 }
 
 // NewKeyPair for creating a new KeyPair

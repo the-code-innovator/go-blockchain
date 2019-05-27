@@ -2,47 +2,56 @@ package blockchain
 
 import (
 	"bytes"
-	"crypto/sha256"
-	"encoding/gob"
-)
 
-// Transaction structure for the Transaction
-type Transaction struct {
-	ID      []byte
-	Inputs  []TxInput
-	Outputs []TxOutput
-}
+	"github.com/the-code-innovator/go-blockchain/wallet"
+)
 
 // TxOutput for Output for the BlockChainw
 type TxOutput struct {
-	Value     int
-	PublicKey string
+	Value         int
+	PublicKeyHash []byte
 }
 
 // TxInput for Input for the BlockChain
 type TxInput struct {
 	ID        []byte
 	Output    int
-	Signature string
+	Signature []byte
+	PublicKey []byte
 }
 
-// SetID for setting the ID for the Transaction
-func (tx *Transaction) SetID() {
-	var encoded bytes.Buffer
-	var hash [32]byte
-	encoder := gob.NewEncoder(&encoded)
-	err := encoder.Encode(tx)
-	Handle(err)
-	hash = sha256.Sum256(encoded.Bytes())
-	tx.ID = hash[:]
+// // CanUnlock for checking who can unlock the coinbase transaction
+// func (in *TxInput) CanUnlock(data string) bool {
+// 	return in.Signature == data
+// }
+
+// // CanBeUnlocked to check whether the transaction can be unlocked
+// func (out *TxOutput) CanBeUnlocked(data string) bool {
+// 	return out.PublicKey == data
+// }
+
+// NewTxOutput to create a new transaction output for the new transaction that is created by every spending
+func NewTxOutput(value int, address string) *TxOutput {
+	txOut := &TxOutput{value, nil}
+	txOut.Lock([]byte(address))
+	return txOut
 }
 
-// CanUnlock for checking who can unlock the coinbase transaction
-func (in *TxInput) CanUnlock(data string) bool {
-	return in.Signature == data
+// UsesKey to check for unlocking
+func (in *TxInput) UsesKey(publicKeyHash []byte) bool {
+	lockingHash := wallet.PublicKeyHash(in.PublicKey)
+	return bytes.Compare(lockingHash, publicKeyHash) == 0
 }
 
-// CanBeUnlocked to check whether the transaction can be unlocked
-func (out *TxOutput) CanBeUnlocked(data string) bool {
-	return out.PublicKey == data
+// Lock to lock the transaction from spending without authorisation
+func (out *TxOutput) Lock(address []byte) {
+	publicKeyHash := wallet.Base58Decode(address)
+	publicKeyHash = publicKeyHash[1 : len(publicKeyHash)-4]
+	// out.PublicKey = publicKeyHash
+	out.PublicKeyHash = publicKeyHash
+}
+
+// IsLockedWithKey to verify that the transaction is locked with only the users public key
+func (out *TxOutput) IsLockedWithKey(publicKeyHash []byte) bool {
+	return bytes.Compare(out.PublicKeyHash, publicKeyHash) == 0
 }

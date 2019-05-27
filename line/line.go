@@ -3,6 +3,7 @@ package line
 import (
 	"flag"
 	"fmt"
+	"log"
 	"os"
 	"runtime"
 	"strconv"
@@ -11,20 +12,37 @@ import (
 	"github.com/the-code-innovator/go-blockchain/wallet"
 )
 
+const (
+	major = 0
+	minor = 1
+	patch = 1
+)
+
 // Interface struct for handling command line inter
 type Interface struct{}
 
+// PrintInfo to print information of the system
+func (inter *Interface) PrintInfo() {
+	fmt.Printf("Go BlockChain - v%d.%d.%d\n", major, minor, patch)
+}
+
 // PrintUsage for printing usage instructions
 func (inter *Interface) PrintUsage() {
+	inter.PrintInfo()
 	fmt.Println("USAGE:")
-	// fmt.Println("    -> dev   : go run main.go   <OPTIONS>")
-	// fmt.Println("    -> build : ./go-block-chain <OPTIONS>")
 	fmt.Println(" • getbalance -address ADDRESS           - get balance for address.")
 	fmt.Println(" • createblockchain -address ADDRESS     - creates a blockchain.")
 	fmt.Println(" • printchain                            - prints the blocks in the blockchain.")
 	fmt.Println(" • send -from FROM -to TO -amount AMOUNT - send amount from an address to an address.")
 	fmt.Println(" • createwallet                          - creates a new wallet.")
 	fmt.Println(" • listaddresses                         - lists the addresses in our wallet file.")
+	fmt.Println(" • help                                  - prints the usage for the blockchain utility.")
+}
+
+// Help to print help information for the CommandInterface
+func (inter *Interface) Help() {
+	inter.PrintUsage()
+	runtime.Goexit()
 }
 
 // ValidateArguments to validate the arguments for the CommandInterface
@@ -63,6 +81,10 @@ func (inter *Interface) PrintChain() {
 		fmt.Printf("MAIN HASH: %x\n", block.Hash)
 		proofOfWork := blockchain.NewProof(block)
 		fmt.Printf("PROOF OF WORK: %s\n", strconv.FormatBool(proofOfWork.Validate()))
+		for _, tx := range block.Transactions {
+			fmt.Println(tx)
+		}
+		fmt.Println()
 		if len(block.PreviousHash) == 0 {
 			break
 		}
@@ -71,6 +93,9 @@ func (inter *Interface) PrintChain() {
 
 // CreateBlockChain to create a blockchain with the address as the genesis.
 func (inter *Interface) CreateBlockChain(address string) {
+	if !wallet.ValidateAddress(address) {
+		log.Panic("ERROR: ADDRESS IS NOT VALID !")
+	}
 	chain := blockchain.InitBlockChain(address)
 	chain.DataBase.Close()
 	fmt.Println("FINISHED CREATING BLOCKCHAIN.")
@@ -78,10 +103,15 @@ func (inter *Interface) CreateBlockChain(address string) {
 
 // GetBalance to get the balance from the address
 func (inter *Interface) GetBalance(address string) {
+	if !wallet.ValidateAddress(address) {
+		log.Panic("ERROR: ADDRESS IS NOT VALID !")
+	}
 	chain := blockchain.ContinueBlockChain(address)
 	defer chain.DataBase.Close()
 	balance := 0
-	unSpentTransactionOutputs := chain.FindUnspentTransactionsOutputs(address)
+	publicKeyHash := wallet.Base58Decode([]byte(address))
+	publicKeyHash = publicKeyHash[1 : len(publicKeyHash)-4]
+	unSpentTransactionOutputs := chain.FindUnspentTransactionsOutputs(publicKeyHash)
 	for _, output := range unSpentTransactionOutputs {
 		balance += output.Value
 	}
@@ -90,6 +120,12 @@ func (inter *Interface) GetBalance(address string) {
 
 // Send to send the amount from FROM to TO
 func (inter *Interface) Send(from, to string, amount int) {
+	if !wallet.ValidateAddress(from) {
+		log.Panic("ERROR: ADDRESS IS NOT VALID !")
+	}
+	if !wallet.ValidateAddress(to) {
+		log.Panic("ERROR: ADDRESS IS NOT VALID !")
+	}
 	chain := blockchain.ContinueBlockChain(from)
 	defer chain.DataBase.Close()
 	tx := blockchain.NewTransaction(from, to, amount, chain)
@@ -131,8 +167,10 @@ func (inter *Interface) Run() {
 	case "send":
 		err := sendCommand.Parse(os.Args[2:])
 		blockchain.Handle(err)
+	case "help":
+		inter.Help()
 	default:
-		inter.PrintUsage()
+		inter.PrintInfo()
 		runtime.Goexit()
 	}
 	if getBalanceCommand.Parsed() {

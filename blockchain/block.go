@@ -47,7 +47,6 @@ func CreateBlock(txns []*Transaction, previousHash []byte) *Block {
 
 // Genesis of the BlockChain
 func Genesis(coinbase *Transaction) *Block {
-	// return CreateBlock("Genesis", []byte{})
 	return CreateBlock([]*Transaction{coinbase}, []byte{})
 }
 
