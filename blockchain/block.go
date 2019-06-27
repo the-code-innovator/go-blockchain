@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"crypto/sha256"
 	"encoding/gob"
-	"log"
 )
 
 // Block structure for the Block type in the blockchain
@@ -58,11 +57,4 @@ func (block *Block) HashTransactions() []byte {
 	}
 	txHash = sha256.Sum256(bytes.Join(txHashes, []byte{}))
 	return txHash[:]
-}
-
-// PanicHandle to Panic throw the Error
-func PanicHandle(err error) {
-	if err != nil {
-		log.Panic(err)
-	}
 }
