@@ -5,6 +5,7 @@
 	"go.useLanguageServer": true,
 	"go.useCodeSnippetsOnFunctionSuggestWithoutType": true,
 	"go.useCodeSnippetsOnFunctionSuggest": true,
+	"go.gopath": "/Users/aravind/go",
 	"go.testOnSave": true,
 	"editor.fontFamily": "Fira Code",
 	"editor.fontLigatures": true
