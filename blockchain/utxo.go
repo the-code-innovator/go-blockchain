@@ -7,8 +7,8 @@ import (
 )
 
 var (
-	utxoPrefix       = []byte("utxo-")
-	utxoPrefixLength = len(utxoPrefix)
+// utxoPrefix = []byte("utxo-")
+// utxoPrefixLength = len(utxoPrefix)
 )
 
 // UTXO struct for blockchain

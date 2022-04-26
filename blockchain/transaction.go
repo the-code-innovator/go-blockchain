@@ -121,7 +121,7 @@ func (tx *Transaction) Verify(previousTXs map[string]Transaction) bool {
 		x.SetBytes(in.PublicKey[:(keyLength / 2)])
 		y.SetBytes(in.PublicKey[(keyLength / 2):])
 		rawPublicKey := ecdsa.PublicKey{Curve: curve, X: &x, Y: &y}
-		if ecdsa.Verify(&rawPublicKey, txCopy.ID, &r, &s) == false {
+		if !ecdsa.Verify(&rawPublicKey, txCopy.ID, &r, &s) {
 			return false
 		}
 	}

@@ -38,7 +38,7 @@ func InitBlockChain(address string) *BlockChain {
 		runtime.Goexit()
 	}
 	var lastHash []byte
-	options := badger.DefaultOptions
+	options := badger.DefaultOptions("./option")
 	options.Dir = dbPath
 	options.ValueDir = dbPath
 	database, err := badger.Open(options)
@@ -60,12 +60,12 @@ func InitBlockChain(address string) *BlockChain {
 
 // ContinueBlockChain to continue blockchain validation
 func ContinueBlockChain(address string) *BlockChain {
-	if badgerDBExists() == false {
+	if !badgerDBExists() {
 		fmt.Println("NO EXISTING BLOCKCHAIN FOUND.\nCREATE ONE.")
 		runtime.Goexit()
 	}
 	var lastHash []byte
-	options := badger.DefaultOptions
+	options := badger.DefaultOptions("./option")
 	options.Dir = dbPath
 	options.ValueDir = dbPath
 	database, err := badger.Open(options)
@@ -73,7 +73,7 @@ func ContinueBlockChain(address string) *BlockChain {
 	err = database.Update(func(txn *badger.Txn) error {
 		item, err := txn.Get([]byte("lh"))
 		PanicHandle(err)
-		lastHash, err = item.Value()
+		lastHash, err = item.ValueCopy(item.Key())
 		return err
 	})
 	PanicHandle(err)
@@ -109,7 +109,7 @@ func (chain *BlockChain) FindTransaction(ID []byte) (Transaction, error) {
 	for {
 		block := iterator.Next()
 		for _, tx := range block.Transactions {
-			if bytes.Compare(tx.ID, ID) == 0 {
+			if bytes.Equal(tx.ID, ID) {
 				return *tx, nil
 			}
 		}
@@ -126,7 +126,7 @@ func (chain *BlockChain) AddBlock(transactions []*Transaction) {
 	err := chain.DataBase.View(func(txn *badger.Txn) error {
 		item, err := txn.Get([]byte("lh"))
 		PanicHandle(err)
-		lastHash, err = item.Value()
+		lastHash, err = item.ValueCopy(item.Key())
 		return err
 	})
 	PanicHandle(err)
@@ -163,7 +163,7 @@ func (chain *BlockChain) FindUnspentTransactions(publicKeyHash []byte) []Transac
 					unSpentTransactions = append(unSpentTransactions, *tx)
 				}
 			}
-			if tx.IsCoinBase() == false {
+			if !tx.IsCoinBase() {
 				for _, in := range tx.Inputs {
 					if in.UsesKey(publicKeyHash) {
 						inTxID := hex.EncodeToString(in.ID)
@@ -234,7 +234,7 @@ func (iterator *ChainIterator) Next() *Block {
 	err := iterator.DataBase.View(func(txn *badger.Txn) error {
 		item, err := txn.Get(iterator.CurrentHash)
 		PanicHandle(err)
-		encodedBlock, err := item.Value()
+		encodedBlock, err := item.ValueCopy(item.Key())
 		block = Deserialize(encodedBlock)
 		return err
 	})

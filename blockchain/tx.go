@@ -62,10 +62,10 @@ func (out *TxOutput) Lock(address []byte) {
 // UsesKey to check for unlocking
 func (in *TxInput) UsesKey(publicKeyHash []byte) bool {
 	lockingHash := wallet.PublicKeyHash(in.PublicKey)
-	return bytes.Compare(lockingHash, publicKeyHash) == 0
+	return bytes.Equal(lockingHash, publicKeyHash)
 }
 
 // IsLockedWithKey to verify that the transaction is locked with only the users public key
 func (out *TxOutput) IsLockedWithKey(publicKeyHash []byte) bool {
-	return bytes.Compare(out.PublicKeyHash, publicKeyHash) == 0
+	return bytes.Equal(out.PublicKeyHash, publicKeyHash)
 }

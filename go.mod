@@ -1,15 +1,22 @@
 module github.com/the-code-innovator/go-blockchain
 
-go 1.12
+go 1.18
 
 require (
-	github.com/AndreasBriese/bbloom v0.0.0-20190306092124-e2d15f34fcf9 // indirect
-	github.com/dgraph-io/badger v1.5.4
-	github.com/dgryski/go-farm v0.0.0-20190423205320-6a90982ecee2 // indirect
+	github.com/dgraph-io/badger v1.6.2
+	github.com/mr-tron/base58 v1.2.0
+	golang.org/x/crypto v0.0.0-20220411220226-7b82a4e95df4
+)
+
+require (
+	github.com/AndreasBriese/bbloom v0.0.0-20190825152654-46b345b51c96 // indirect
+	github.com/cespare/xxhash v1.1.0 // indirect
+	github.com/dgraph-io/ristretto v0.0.2 // indirect
+	github.com/dgryski/go-farm v0.0.0-20200201041132-a6ae2369ad13 // indirect
 	github.com/dustin/go-humanize v1.0.0 // indirect
-	github.com/golang/protobuf v1.3.1 // indirect
-	github.com/mr-tron/base58 v1.1.2
-	github.com/pkg/errors v0.8.1 // indirect
-	github.com/spf13/cobra v0.0.5 // indirect
-	golang.org/x/crypto v0.0.0-20190513172903-22d7a77e9e5f
+	github.com/golang/protobuf v1.5.2 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
+	golang.org/x/net v0.0.0-20211112202133-69e39bad7dc2 // indirect
+	golang.org/x/sys v0.0.0-20210615035016-665e8c7367d1 // indirect
+	google.golang.org/protobuf v1.26.0 // indirect
 )
