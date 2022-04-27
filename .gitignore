@@ -20,5 +20,9 @@ tmp/*
 # release directory
 release/*
 
-# build-binary
+# release-artefacts
 go-blockchain
+go.sum
+
+# vscode settings
+.vscode/*
