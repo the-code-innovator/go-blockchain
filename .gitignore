@@ -22,7 +22,6 @@ release/*
 
 # release-artefacts
 go-blockchain
-go.sum
 
 # vscode settings
 .vscode/*
